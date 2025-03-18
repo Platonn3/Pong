@@ -1,0 +1,24 @@
+class Main {
+    field int height, width;
+    constructor Main new(int h, int w) {
+        let height = h;
+        let w = width;
+        return this;
+    }
+    function void main() 
+    {
+        var char key;
+        while (true) {
+            let key = Keyboard.keyPressed();
+            
+            if (key = 131) { 
+                do MoveWall("up");
+            }
+            if (key = 132) {
+                do MoveWall("down");
+            }
+            do Sys.wait(100); 
+        }
+        return;
+    }
+}

@@ -1,0 +1,18 @@
+class Wall {
+     static int startX, startY;
+
+     function void MoveWall (String direction) {
+        var Main main;
+        let main = Main.new();
+
+        if(direction == "up" & startY < main.height - 1)
+        {
+            let startY = startY + 1;
+        }
+
+        if(direction == "down" & startY > 0)
+        {
+            let startY = startY - 1;
+        }
+     } 
+}
