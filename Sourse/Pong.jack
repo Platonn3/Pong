@@ -1,0 +1,87 @@
+class Pong {
+    field int ballX, ballY, ballDX, ballDY;
+    field int leftPaddleY, rightPaddleY;
+    field int leftScore, rightScore;
+    
+    constructor Pong new() {
+            let ballX = 80;
+            let ballY = 50;
+            let ballDX = 2;
+            let ballDY = 1;
+            return this;
+        }
+
+    method void resetBall() {
+        let ballX = 80;
+        let ballY = 50;
+        let ballDX = 2;
+        let ballDY = 1;
+        return;
+    }
+    
+    method void movePaddles() {
+        if (Keyboard.keyPressed() = 119) {
+            if (leftPaddleY > 0) { let leftPaddleY = leftPaddleY - 2; }
+        }
+        if (Keyboard.keyPressed() = 115) {
+            if (leftPaddleY < 90) { let leftPaddleY = leftPaddleY + 2; }
+        }
+        if (Keyboard.keyPressed() = 131) {
+            if (rightPaddleY > 0) { let rightPaddleY = rightPaddleY - 2; }
+        }
+        if (Keyboard.keyPressed() = 133) {
+            if (rightPaddleY < 90) { let rightPaddleY = rightPaddleY + 2; }
+        }
+        return;
+    }
+    
+    method void moveBall() {
+        let ballX = ballX + ballDX;
+        let ballY = ballY + ballDY;
+        
+        if ((ballY < 1) | (ballY > 99)) {
+            let ballDY = ballDY * (-1);
+        }
+        
+        if ((ballX < 5) & (ballY > leftPaddleY) & (ballY < (leftPaddleY + 20))) {
+            let ballDX = ballDX * -1;
+        }
+        if ((ballX > 155) & (ballY > rightPaddleY) & (ballY < (rightPaddleY + 20))) {
+            let ballDX = ballDX * -1;
+        }
+        
+        if (ballX < 0) {
+            let rightScore = rightScore + 1;
+            do resetBall();
+        }
+        if (ballX > 160) {
+            let leftScore = leftScore + 1;
+            do resetBall();
+        }
+        return;
+    }
+    
+    method void draw() {
+        do Screen.clearScreen();
+        do Screen.drawRectangle(3, leftPaddleY, 6, leftPaddleY + 20);
+        do Screen.drawRectangle(153, rightPaddleY, 156, rightPaddleY + 20);
+        do Screen.drawRectangle(ballX, ballY, ballX + 2, ballY + 2);
+        return;
+    }
+    
+    method void run() {
+        let leftPaddleY = 40;
+        let rightPaddleY = 40;
+        let leftScore = 0;
+        let rightScore = 0;
+        do resetBall();
+        
+        while (true) {
+            do movePaddles();
+            do moveBall();
+            do draw();
+            do Sys.wait(10);
+        }
+        return;
+    }
+}
