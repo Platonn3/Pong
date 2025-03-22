@@ -80,6 +80,14 @@ class Pong {
     method void draw() {
         do Screen.clearScreen();
 
+        do drawRightScore(rightScore);
+        do drawLeftScore(leftScore);
+
+        do Screen.drawLine(51, 100, 51, 125);
+        do Screen.drawLine(102, 100, 102, 125);
+        do Screen.drawLine(51, 125, 102, 125);
+        do Screen.drawLine(76, 100, 76, 125);
+
         do Screen.drawLine(2, 1, 157, 1);
         do Screen.drawLine(2, 100, 157, 100);
 
@@ -92,6 +100,77 @@ class Pong {
         do Screen.drawRectangle(5, leftPaddleY, 8, leftPaddleY + 20);
         do Screen.drawRectangle(151, rightPaddleY, 154, rightPaddleY + 20);
         do Screen.drawRectangle(ballX, ballY, ballX + 2, ballY + 2);
+        return;
+    }
+
+    method void drawLeftScore(int score){
+        if (score = 0){
+            do Screen.drawLine(56, 102, 71, 102);
+            do Screen.drawLine(56, 123, 71, 123);
+            do Screen.drawLine(56, 102, 56, 123);
+            do Screen.drawLine(71, 102, 71, 123);
+        }
+        if (score = 1){
+            do Screen.drawLine(56, 112, 64, 102);
+            do Screen.drawLine(64, 102, 64, 123);
+        }
+
+        if(score = 2){
+            do Screen.drawLine(56, 102, 71, 102);
+            do Screen.drawLine(71, 102, 56, 123);
+            do Screen.drawLine(56, 123, 71, 123);
+            do Screen.drawLine(56, 102, 56, 112);
+        } 
+
+        if(score = 3){
+            do Screen.drawLine(56, 102, 71, 102);
+            do Screen.drawLine(71, 102, 56, 112);
+            do Screen.drawLine(56, 112, 71, 123);
+            do Screen.drawLine(71, 123, 56, 123);
+        }
+
+        if(score = 4){
+            do drawRightScore(0);
+            do drawLeftScore(0);
+            let leftScore = 0;
+            let rightScore = 0;
+        }
+        return;
+    }
+
+    method void drawRightScore(int score){
+        if (score = 0){
+            do Screen.drawLine(81, 102, 97, 102);
+            do Screen.drawLine(81, 123, 97, 123);
+            do Screen.drawLine(81, 102, 81, 123);
+            do Screen.drawLine(97, 102, 97, 123);
+        }
+
+        if (score = 1){
+            do Screen.drawLine(81, 112, 89, 102);
+            do Screen.drawLine(89, 102, 89, 123);
+        }
+
+        if(score = 2){
+            do Screen.drawLine(81, 102, 97, 102);
+            do Screen.drawLine(97, 102, 81, 123);
+            do Screen.drawLine(81, 123, 97, 123);
+            do Screen.drawLine(81, 102, 81, 112);
+        } 
+
+        if(score = 3){
+            do Screen.drawLine(81, 102, 97, 102);
+            do Screen.drawLine(97, 102, 81, 112);
+            do Screen.drawLine(81, 112, 97, 123);
+            do Screen.drawLine(97, 123, 81, 123);
+        }
+
+        if(score = 4){
+            do drawRightScore(0);
+            do drawLeftScore(0);
+            let leftScore = 0;
+            let rightScore = 0;
+        }
         return;
     }
     
