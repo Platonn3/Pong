@@ -79,7 +79,6 @@ class Pong {
     
     method void draw() {
         do Screen.clearScreen();
-        do drawPlayerWin(1);
 
         do drawRightScore(rightScore);
         do drawLeftScore(leftScore);
@@ -135,6 +134,7 @@ class Pong {
             do drawLeftScore(0);
             let leftScore = 0;
             let rightScore = 0;
+            do drawPlayerWin(1);
         }
         return;
     }
@@ -171,6 +171,7 @@ class Pong {
             do drawLeftScore(0);
             let leftScore = 0;
             let rightScore = 0;
+            do drawPlayerWin(2);
         }
         return;
     }
@@ -215,13 +216,7 @@ class Pong {
             do Screen.drawLine(171, 131, 161, 131);
             do Screen.drawLine(161, 131, 161, 151);
         }
-        
-
-
-
         return;
-
-
     }
     
     method void run() {
