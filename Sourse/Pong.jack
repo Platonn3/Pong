@@ -2,6 +2,8 @@ class Pong {
     field int ballX, ballY, ballDX, ballDY;
     field int leftPaddleY, rightPaddleY;
     field int leftScore, rightScore;
+    field boolean flag;
+    field boolean stop;
     
     constructor Pong new() {
             return this;
@@ -10,7 +12,7 @@ class Pong {
     method void resetBall() {
         let ballX = 80;
         let ballY = 50;
-        let ballDX = 1;
+        let ballDX = -1;
         let ballDY = -1;
         return;
     }
@@ -34,31 +36,49 @@ class Pong {
     method void moveBall() {
         let ballX = ballX + ballDX;
         let ballY = ballY + ballDY;
+        let flag = true;
 
         
         if ((ballY < 1) | (ballY > 99)) {
             let ballDY = ballDY * (-1);
         }
 
-        if ((ballX < 8) & (ballY > leftPaddleY) & (ballY < (leftPaddleY + 20))) {
-            let ballDX = ballDX * -1;
-        }
-
-        if ((ballX > 150) & (ballY > rightPaddleY) & (ballY < (rightPaddleY + 20))) {
-            let ballDX = ballDX * -1;
-        }
-
-        if((ballX > 151) & (ballY < 80) & (ballY > 20))
-        {
+        if (ballX > 157) {
             let leftScore = leftScore + 1;
             do resetBall();
         }
 
-        if((ballX < 7) & (ballY < 80) & (ballY > 20))
+        if (ballX < 2)
         {
             let rightScore = rightScore + 1;
             do resetBall();
         }
+
+        if ((ballX > 151) & (ballX < 155) & (ballY > (rightPaddleY - 1)) & (ballY < (rightPaddleY + 21))){
+            let ballDY = ballDY * (-1);
+            let flag = false;
+        }
+
+        if ((ballX > 4) & (ballX < 8) & (ballY > (leftPaddleY - 1)) & (ballY < (leftPaddleY + 21))){
+            let ballDY = ballDY * (-1);
+            let flag = false;
+        }
+
+        if ((ballX < 9) & (ballX > 6) & (ballY > (leftPaddleY - 1)) & (ballY < (leftPaddleY + 21))) {
+            
+            if (flag = true){
+            let ballDX = ballDX * -1;
+            }
+        }
+
+        if ((ballX > 149) & (ballX < 152) & (ballY > (rightPaddleY - 1)) & (ballY < (rightPaddleY + 21))) {
+            if (flag = true){
+            let ballDX = ballDX * -1;
+            }
+        }
+
+
+        
 
         if(((ballX < 3) | (ballX > 156)) & (((ballY > 79) & (ballY < 101)) | ((ballY > 0) & (ballY < 21))))
         {
@@ -70,18 +90,20 @@ class Pong {
             let rightScore = rightScore + 1;
             do resetBall();
         }
-        if (ballX > 157) {
-            let leftScore = leftScore + 1;
-            do resetBall();
-        }
         return;
     }
     
     method void draw() {
         do Screen.clearScreen();
-
-        do drawRightScore(rightScore);
-        do drawLeftScore(leftScore);
+        if ((leftScore = 4) | (rightScore = 4)){
+            do drawRightScore(0);
+            do drawLeftScore(0);
+            let stop = true;
+        }
+        else{
+            do drawRightScore(rightScore);
+            do drawLeftScore(leftScore);
+        }
 
         do Screen.drawLine(51, 100, 51, 125);
         do Screen.drawLine(102, 100, 102, 125);
@@ -128,14 +150,6 @@ class Pong {
             do Screen.drawLine(56, 112, 71, 123);
             do Screen.drawLine(71, 123, 56, 123);
         }
-
-        if(score = 4){
-            do drawRightScore(0);
-            do drawLeftScore(0);
-            let leftScore = 0;
-            let rightScore = 0;
-            do drawPlayerWin(1);
-        }
         return;
     }
 
@@ -164,14 +178,6 @@ class Pong {
             do Screen.drawLine(97, 102, 81, 112);
             do Screen.drawLine(81, 112, 97, 123);
             do Screen.drawLine(97, 123, 81, 123);
-        }
-
-        if(score = 4){
-            do drawRightScore(0);
-            do drawLeftScore(0);
-            let leftScore = 0;
-            let rightScore = 0;
-            do drawPlayerWin(2);
         }
         return;
     }
@@ -205,6 +211,19 @@ class Pong {
         do Screen.drawLine(146, 151, 126, 151);
         do Screen.drawLine(126, 151, 146, 171);//R
 
+        do Screen.drawLine(1, 181, 6, 221);
+        do Screen.drawLine(6, 221, 11, 181);
+        do Screen.drawLine(11, 181, 16, 221);
+        do Screen.drawLine(16, 221, 21, 181);//W
+
+        do Screen.drawLine(26, 221, 46, 221);
+        do Screen.drawLine(26, 181, 46, 181);
+        do Screen.drawLine(36, 221, 36, 181);//I
+
+        do Screen.drawLine(51, 221, 51, 181);
+        do Screen.drawLine(51, 181, 71, 221);
+        do Screen.drawLine(71, 181, 71, 221);//N
+
         if (playerNumber = 1){
             do Screen.drawLine(161, 161, 171, 131);
             do Screen.drawLine(171, 131, 171, 171);
@@ -226,11 +245,17 @@ class Pong {
         let rightScore = 0;
         do resetBall();
         
-        while (true) {
+        while (~stop) {
             do movePaddles();
             do moveBall();
             do draw();
             do Sys.wait(10);
+        }
+        if(leftScore = 4){
+            do drawPlayerWin(1);
+        }
+        else{
+            do drawPlayerWin(2);
         }
         return;
     }
