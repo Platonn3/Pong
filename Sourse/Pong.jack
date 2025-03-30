@@ -1,20 +1,14 @@
 class Pong {
     field int ballX, ballY, ballDX, ballDY;
-    field int leftPaddleY, rightPaddleY;
     field int левоеОчко, правоеОчко;
+    field int leftPaddleY, rightPaddleY;
     field boolean флаг;
     field boolean stop;
-    field int S;
-    field int W;
-    field int Down;
-    field int Up;
+    field Paddles paddles;
     
     
     constructor Pong new() {
-            let S = 119;
-            let W = 115;
-            let Down = 131;
-            let Up = 133;
+            let paddles = Paddles.new();
             return this;
         }
 
@@ -26,29 +20,14 @@ class Pong {
         let ballDY = -1;
         return;
     }
-    
-    // передвижение стенки
-    method void movePaddles() {
-        if (Keyboard.keyPressed() = S) {
-            if (leftPaddleY > 4) { let leftPaddleY = leftPaddleY - 2; }
-        }
-        if (Keyboard.keyPressed() = W) {
-            if (leftPaddleY < 80) { let leftPaddleY = leftPaddleY + 2; }
-        }
-        if (Keyboard.keyPressed() = Down) {
-            if (rightPaddleY > 4) { let rightPaddleY = rightPaddleY - 2; }
-        }
-        if (Keyboard.keyPressed() = Up) {
-            if (rightPaddleY < 80) { let rightPaddleY = rightPaddleY + 2; }
-        }
-        return;
-    }
-    
+        
     // обработка движения и отскоков мяча
     method void moveBall() {
         let ballX = ballX + ballDX;
         let ballY = ballY + ballDY;
         let флаг = true;
+        let leftPaddleY = paddles.GetLeftPaddleY();
+        let rightPaddleY = paddles.GetRightPaddleY();
 
         // отскок от верхней и нижней границы поля
         if ((ballY < 1) | (ballY > 99)) {
@@ -107,14 +86,14 @@ class Pong {
     method void run() {
         var Draw drawer;
         let drawer = Draw.new();
-        let leftPaddleY = 40;
-        let rightPaddleY = 40;
+        do paddles.SetLeftPaddleY(40);
+        do paddles.SetRightPaddleY(40);
         let левоеОчко = 0;
         let правоеОчко = 0;
         do resetBall();
 
         while (~stop) {
-            do movePaddles();
+            do paddles.movePaddles();
             do moveBall();
             let stop = drawer.draw(левоеОчко, правоеОчко, 
                 leftPaddleY, rightPaddleY, 

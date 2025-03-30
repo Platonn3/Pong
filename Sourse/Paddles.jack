@@ -1,0 +1,50 @@
+class Paddles{
+    field int leftPaddleY, rightPaddleY;
+    field int S;
+    field int W;
+    field int Down;
+    field int Up;
+
+    constructor Paddles new(){
+        let S = 119;
+        let W = 115;
+            let Down = 131;
+            let Up = 133;
+        return this;
+    }
+
+    method int GetLeftPaddleY(){
+        return leftPaddleY;
+    }
+
+    method void SetLeftPaddleY(int value){
+        let leftPaddleY = value;
+        return;
+    }
+
+    method void SetRightPaddleY(int value){
+        let rightPaddleY = value;
+        return;
+    }
+
+     method int GetRightPaddleY(){
+        return rightPaddleY;
+    }
+
+    // передвижение стенки
+    method void movePaddles() {
+        if (Keyboard.keyPressed() = S) {
+            if (leftPaddleY > 4) { let leftPaddleY = leftPaddleY - 2; }
+        }
+        if (Keyboard.keyPressed() = W) {
+            if (leftPaddleY < 80) { let leftPaddleY = leftPaddleY + 2; }
+        }
+        if (Keyboard.keyPressed() = Down) {
+            if (rightPaddleY > 4) { let rightPaddleY = rightPaddleY - 2; }
+        }
+        if (Keyboard.keyPressed() = Up) {
+            if (rightPaddleY < 80) { let rightPaddleY = rightPaddleY + 2; }
+        }
+        return;
+    }
+}
