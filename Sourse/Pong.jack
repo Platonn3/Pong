@@ -1,14 +1,24 @@
 class Pong {
     field int ballX, ballY, ballDX, ballDY;
     field int leftPaddleY, rightPaddleY;
-    field int leftScore, rightScore;
-    field boolean flag;
+    field int левоеОчко, правоеОчко;
+    field boolean флаг;
     field boolean stop;
+    field int S;
+    field int W;
+    field int Down;
+    field int Up;
+    
     
     constructor Pong new() {
+            let S = 119;
+            let W = 115;
+            let Down = 131;
+            let Up = 133;
             return this;
         }
 
+    //перезапуск мяча
     method void resetBall() {
         let ballX = 80;
         let ballY = 50;
@@ -17,245 +27,106 @@ class Pong {
         return;
     }
     
+    // передвижение стенки
     method void movePaddles() {
-        if (Keyboard.keyPressed() = 119) {
+        if (Keyboard.keyPressed() = S) {
             if (leftPaddleY > 4) { let leftPaddleY = leftPaddleY - 2; }
         }
-        if (Keyboard.keyPressed() = 115) {
+        if (Keyboard.keyPressed() = W) {
             if (leftPaddleY < 80) { let leftPaddleY = leftPaddleY + 2; }
         }
-        if (Keyboard.keyPressed() = 131) {
+        if (Keyboard.keyPressed() = Down) {
             if (rightPaddleY > 4) { let rightPaddleY = rightPaddleY - 2; }
         }
-        if (Keyboard.keyPressed() = 133) {
+        if (Keyboard.keyPressed() = Up) {
             if (rightPaddleY < 80) { let rightPaddleY = rightPaddleY + 2; }
         }
         return;
     }
     
+    // обработка движения и отскоков мяча
     method void moveBall() {
         let ballX = ballX + ballDX;
         let ballY = ballY + ballDY;
-        let flag = true;
+        let флаг = true;
 
-        
+        // отскок от верхней и нижней границы поля
         if ((ballY < 1) | (ballY > 99)) {
             let ballDY = ballDY * (-1);
         }
 
+        // гол в правые ворота
         if (ballX > 157) {
-            let leftScore = leftScore + 1;
+            let левоеОчко = левоеОчко + 1;
             do resetBall();
         }
 
+        // гол в левые ворота
         if (ballX < 2)
         {
-            let rightScore = rightScore + 1;
+            let правоеОчко = правоеОчко + 1;
             do resetBall();
         }
 
+        // отскок шара от торца правой подвижной стенки
         if ((ballX > 151) & (ballX < 155) & (ballY > (rightPaddleY - 1)) & (ballY < (rightPaddleY + 21))){
             let ballDY = ballDY * (-1);
-            let flag = false;
+            let флаг = false;
         }
 
+        // отскок шара от торца левой подвижной стенки
         if ((ballX > 4) & (ballX < 8) & (ballY > (leftPaddleY - 1)) & (ballY < (leftPaddleY + 21))){
             let ballDY = ballDY * (-1);
-            let flag = false;
+            let флаг = false;
         }
 
+        // отскок шара от левой подвижной стенки
         if ((ballX < 9) & (ballX > 6) & (ballY > (leftPaddleY - 1)) & (ballY < (leftPaddleY + 21))) {
-            
-            if (flag = true){
+            // проверка не дает залететь шару в стенку через торец
+            if (флаг = true){
             let ballDX = ballDX * -1;
             }
         }
 
+        // отскок шара от правой подвижной стенки
         if ((ballX > 149) & (ballX < 152) & (ballY > (rightPaddleY - 1)) & (ballY < (rightPaddleY + 21))) {
-            if (flag = true){
+            // проверка не дает залететь шару в стенку через торец
+            if (флаг = true){
             let ballDX = ballDX * -1;
             }
         }
-
-
         
-
+        // отскок шара от статичных боковых границ
         if(((ballX < 3) | (ballX > 156)) & (((ballY > 79) & (ballY < 101)) | ((ballY > 0) & (ballY < 21))))
         {
             let ballDX = ballDX * -1;
-        }
-        
-        
-        if (ballX < 2) {
-            let rightScore = rightScore + 1;
-            do resetBall();
-        }
-        return;
-    }
-    
-    method void draw() {
-        do Screen.clearScreen();
-        if ((leftScore = 4) | (rightScore = 4)){
-            do drawRightScore(0);
-            do drawLeftScore(0);
-            let stop = true;
-        }
-        else{
-            do drawRightScore(rightScore);
-            do drawLeftScore(leftScore);
-        }
-
-        do Screen.drawLine(51, 100, 51, 125);
-        do Screen.drawLine(102, 100, 102, 125);
-        do Screen.drawLine(51, 125, 102, 125);
-        do Screen.drawLine(76, 100, 76, 125);
-
-        do Screen.drawLine(2, 1, 157, 1);
-        do Screen.drawLine(2, 100, 157, 100);
-
-        do Screen.drawLine(2, 1, 2, 20);
-        do Screen.drawLine(2, 80, 2, 100);
-
-        do Screen.drawLine(157, 1, 157, 20);
-        do Screen.drawLine(157, 80, 157, 100);
-
-        do Screen.drawRectangle(5, leftPaddleY, 8, leftPaddleY + 20);
-        do Screen.drawRectangle(151, rightPaddleY, 154, rightPaddleY + 20);
-        do Screen.drawRectangle(ballX, ballY, ballX + 2, ballY + 2);
-        return;
-    }
-
-    method void drawLeftScore(int score){
-        if (score = 0){
-            do Screen.drawLine(56, 102, 71, 102);
-            do Screen.drawLine(56, 123, 71, 123);
-            do Screen.drawLine(56, 102, 56, 123);
-            do Screen.drawLine(71, 102, 71, 123);
-        }
-        if (score = 1){
-            do Screen.drawLine(56, 112, 64, 102);
-            do Screen.drawLine(64, 102, 64, 123);
-        }
-
-        if(score = 2){
-            do Screen.drawLine(56, 102, 71, 102);
-            do Screen.drawLine(71, 102, 56, 123);
-            do Screen.drawLine(56, 123, 71, 123);
-            do Screen.drawLine(56, 102, 56, 112);
-        } 
-
-        if(score = 3){
-            do Screen.drawLine(56, 102, 71, 102);
-            do Screen.drawLine(71, 102, 56, 112);
-            do Screen.drawLine(56, 112, 71, 123);
-            do Screen.drawLine(71, 123, 56, 123);
-        }
-        return;
-    }
-
-    method void drawRightScore(int score){
-        if (score = 0){
-            do Screen.drawLine(81, 102, 97, 102);
-            do Screen.drawLine(81, 123, 97, 123);
-            do Screen.drawLine(81, 102, 81, 123);
-            do Screen.drawLine(97, 102, 97, 123);
-        }
-
-        if (score = 1){
-            do Screen.drawLine(81, 112, 89, 102);
-            do Screen.drawLine(89, 102, 89, 123);
-        }
-
-        if(score = 2){
-            do Screen.drawLine(81, 102, 97, 102);
-            do Screen.drawLine(97, 102, 81, 123);
-            do Screen.drawLine(81, 123, 97, 123);
-            do Screen.drawLine(81, 102, 81, 112);
-        } 
-
-        if(score = 3){
-            do Screen.drawLine(81, 102, 97, 102);
-            do Screen.drawLine(97, 102, 81, 112);
-            do Screen.drawLine(81, 112, 97, 123);
-            do Screen.drawLine(97, 123, 81, 123);
-        }
-        return;
-    }
-
-    method void drawPlayerWin(int playerNumber){
-        do Screen.drawLine(1, 171, 1, 131);
-        do Screen.drawLine(1, 131, 21, 131);
-        do Screen.drawLine(21, 131, 21, 151);
-        do Screen.drawLine(21, 151, 1, 151);// P
-
-
-        do Screen.drawLine(26, 131, 25, 171);
-        do Screen.drawLine(26, 171, 46, 171);//L
-
-        do Screen.drawLine(61, 131, 51, 171);
-        do Screen.drawLine(61, 131, 71, 171);
-        do Screen.drawLine(55, 151, 67, 151); //A
-
-        do Screen.drawLine(86, 171, 86, 146);
-        do Screen.drawLine(86, 146, 76, 131);
-        do Screen.drawLine(86, 146, 96, 131);//Y
-
-        do Screen.drawLine(101, 171, 121, 171);
-        do Screen.drawLine(101, 171, 101, 131);
-        do Screen.drawLine(101, 131, 121, 131);
-        do Screen.drawLine(101, 151, 121, 151);//E
-
-        do Screen.drawLine(126, 171, 126, 131);
-        do Screen.drawLine(126, 131, 146, 131);
-        do Screen.drawLine(146, 131, 146, 151);
-        do Screen.drawLine(146, 151, 126, 151);
-        do Screen.drawLine(126, 151, 146, 171);//R
-
-        do Screen.drawLine(1, 181, 6, 221);
-        do Screen.drawLine(6, 221, 11, 181);
-        do Screen.drawLine(11, 181, 16, 221);
-        do Screen.drawLine(16, 221, 21, 181);//W
-
-        do Screen.drawLine(26, 221, 46, 221);
-        do Screen.drawLine(26, 181, 46, 181);
-        do Screen.drawLine(36, 221, 36, 181);//I
-
-        do Screen.drawLine(51, 221, 51, 181);
-        do Screen.drawLine(51, 181, 71, 221);
-        do Screen.drawLine(71, 181, 71, 221);//N
-
-        if (playerNumber = 1){
-            do Screen.drawLine(161, 161, 171, 131);
-            do Screen.drawLine(171, 131, 171, 171);
-        }
-
-        else{
-            do Screen.drawLine(161, 171, 171, 171);
-            do Screen.drawLine(161, 171, 171, 131);
-            do Screen.drawLine(171, 131, 161, 131);
-            do Screen.drawLine(161, 131, 161, 151);
         }
         return;
     }
     
     method void run() {
+        var Draw drawer;
+        let drawer = Draw.new();
         let leftPaddleY = 40;
         let rightPaddleY = 40;
-        let leftScore = 0;
-        let rightScore = 0;
+        let левоеОчко = 0;
+        let правоеОчко = 0;
         do resetBall();
-        
+
         while (~stop) {
             do movePaddles();
             do moveBall();
-            do draw();
+            let stop = drawer.draw(левоеОчко, правоеОчко, 
+                leftPaddleY, rightPaddleY, 
+                ballX, ballY,
+                stop);
             do Sys.wait(10);
         }
-        if(leftScore = 4){
-            do drawPlayerWin(1);
+        if (левоеОчко = 4){
+            do drawer.drawPlayerWin(1);
         }
         else{
-            do drawPlayerWin(2);
+            do drawer.drawPlayerWin(2);
         }
         return;
     }
