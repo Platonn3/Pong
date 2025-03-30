@@ -1,13 +1,12 @@
 class Draw {
-    field int void;
+    field boolean stop;
     constructor Draw new() {
             return this;
         }
 
     method boolean draw(int leftScore, int rightScore, 
             int leftPaddleY, int rightPaddleY, 
-            int ballX, int ballY,
-            boolean stop) {
+            int ballX, int ballY) {
         do Screen.clearScreen();
 
         // если участник наберает 4 очка, то он победил

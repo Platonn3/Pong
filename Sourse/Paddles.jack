@@ -8,8 +8,10 @@ class Paddles{
     constructor Paddles new(){
         let S = 119;
         let W = 115;
-            let Down = 131;
-            let Up = 133;
+        let Down = 131;
+        let Up = 133;
+        let leftPaddleY = 40;
+        let rightPaddleY = 40;
         return this;
     }
 

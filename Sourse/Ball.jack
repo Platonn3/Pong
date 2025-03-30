@@ -1,0 +1,101 @@
+class Ball{
+    field int ballX, ballY, ballDX, ballDY;
+    field int левоеОчко, правоеОчко;
+    field boolean флаг;
+    field Paddles paddles;
+    field int leftPaddleY, rightPaddleY;
+
+    constructor Ball new(Paddles paddle){
+        let paddles = paddle;
+        let левоеОчко = 0;
+        let правоеОчко = 0;
+        return this;
+    }
+
+    //перезапуск мяча
+    method void resetBall() {
+        let ballX = 80;
+        let ballY = 50;
+        let ballDX = -1;
+        let ballDY = -1;
+        return;
+    }
+
+    method int GetBallX(){
+        return ballX;
+    }
+
+    method int GetBallY(){
+        return ballY;
+    }
+
+    method int GetЛевоеОчко(){
+        return левоеОчко;
+    }
+
+    method int GetПравоеОчко(){
+        return правоеОчко;
+    }
+
+    // обработка движения и отскоков мяча
+    method void moveBall() {
+        let ballX = ballX + ballDX;
+        let ballY = ballY + ballDY;
+        let флаг = true;
+        let leftPaddleY = paddles.GetLeftPaddleY();
+        let rightPaddleY = paddles.GetRightPaddleY();
+
+        // отскок от верхней и нижней границы поля
+        if ((ballY < 1) | (ballY > 99)) {
+            let ballDY = ballDY * (-1);
+        }
+
+        // гол в правые ворота
+        if (ballX > 157) {
+            let левоеОчко = левоеОчко + 1;
+            do resetBall();
+        }
+
+        // гол в левые ворота
+        if (ballX < 2)
+        {
+            let правоеОчко = правоеОчко + 1;
+            do resetBall();
+        }
+
+        // отскок шара от торца правой подвижной стенки
+        if ((ballX > 151) & (ballX < 155) & (ballY > (rightPaddleY - 1)) & (ballY < (rightPaddleY + 21))){
+            let ballDY = ballDY * (-1);
+            let флаг = false;
+        }
+
+        // отскок шара от торца левой подвижной стенки
+        if ((ballX > 4) & (ballX < 8) & (ballY > (leftPaddleY - 1)) & (ballY < (leftPaddleY + 21))){
+            let ballDY = ballDY * (-1);
+            let флаг = false;
+        }
+
+        // отскок шара от левой подвижной стенки
+        if ((ballX < 9) & (ballX > 6) & (ballY > (leftPaddleY - 1)) & (ballY < (leftPaddleY + 21))) {
+            // проверка не дает залететь шару в стенку через торец
+            if (флаг = true){
+            let ballDX = ballDX * -1;
+            }
+        }
+
+        // отскок шара от правой подвижной стенки
+        if ((ballX > 149) & (ballX < 152) & (ballY > (rightPaddleY - 1)) & (ballY < (rightPaddleY + 21))) {
+            // проверка не дает залететь шару в стенку через торец
+            if (флаг = true){
+            let ballDX = ballDX * -1;
+            }
+        }
+        
+        // отскок шара от статичных боковых границ
+        if(((ballX < 3) | (ballX > 156)) & (((ballY > 79) & (ballY < 101)) | ((ballY > 0) & (ballY < 21))))
+        {
+            let ballDX = ballDX * -1;
+        }
+        return;
+    }
+}
