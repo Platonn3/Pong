@@ -1,13 +1,13 @@
-class Pong {
+class Game {
     field int ballX, ballY, ballDX, ballDY;
-    field int левоеОчко, правоеОчко;
+    field int leftScore, rightScore;
     field int leftPaddleY, rightPaddleY;
     field boolean stop;
     field Paddles paddles;
     field Ball ball;
     
     
-    constructor Pong new() {
+    constructor Game new() {
             let paddles = Paddles.new();
             let ball = Ball.new(paddles);
             return this;
@@ -21,20 +21,21 @@ class Pong {
         do ball.resetBall();
 
         while (~stop) {
-            let левоеОчко = ball.GetЛевоеОчко();
-            let правоеОчко = ball.GetПравоеОчко();
+            let leftScore = ball.GetLeftScore();
+            let rightScore = ball.GetRightScore();
             let leftPaddleY = paddles.GetLeftPaddleY();
             let rightPaddleY = paddles.GetRightPaddleY();
             let ballX = ball.GetBallX();
             let ballY = ball.GetBallY();
             do paddles.movePaddles();
             do ball.moveBall();
-            let stop = drawer.draw(левоеОчко, правоеОчко, 
+            do drawer.draw(leftScore, rightScore, 
             leftPaddleY, rightPaddleY, 
             ballX, ballY);
+            let stop = drawer.GetStopDrawing();
             do Sys.wait(10);
         }
-        if (левоеОчко = 4){
+        if (leftScore = 4){
             do drawer.drawPlayerWin(1);
         }
         else{

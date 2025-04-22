@@ -1,15 +1,15 @@
 class Paddles{
     field int leftPaddleY, rightPaddleY;
-    field int S;
-    field int W;
-    field int Down;
-    field int Up;
+    field int keyS;
+    field int keyW;
+    field int keyD;
+    field int keyU;
 
     constructor Paddles new(){
-        let S = 119;
-        let W = 115;
-        let Down = 131;
-        let Up = 133;
+        let keyS = 119;
+        let keyW = 115;
+        let keyD = 131;
+        let keyU = 133;
         let leftPaddleY = 40;
         let rightPaddleY = 40;
         return this;
@@ -35,17 +35,29 @@ class Paddles{
 
     // передвижение стенки
     method void movePaddles() {
-        if (Keyboard.keyPressed() = S) {
-            if (leftPaddleY > 4) { let leftPaddleY = leftPaddleY - 2; }
+        if (Keyboard.keyPressed() = keyS) {
+            if (leftPaddleY > 4) 
+            { 
+                let leftPaddleY = leftPaddleY - 2;
+            }
         }
-        if (Keyboard.keyPressed() = W) {
-            if (leftPaddleY < 80) { let leftPaddleY = leftPaddleY + 2; }
+        if (Keyboard.keyPressed() = keyW) {
+            if (leftPaddleY < 80) 
+            {     
+                let leftPaddleY = leftPaddleY + 2; 
+            }
         }
-        if (Keyboard.keyPressed() = Down) {
-            if (rightPaddleY > 4) { let rightPaddleY = rightPaddleY - 2; }
+        if (Keyboard.keyPressed() = keyD) {
+            if (rightPaddleY > 4) 
+            { 
+                let rightPaddleY = rightPaddleY - 2; 
+            }
         }
-        if (Keyboard.keyPressed() = Up) {
-            if (rightPaddleY < 80) { let rightPaddleY = rightPaddleY + 2; }
+        if (Keyboard.keyPressed() = keyU) {
+            if (rightPaddleY < 80) 
+            { 
+                let rightPaddleY = rightPaddleY + 2;
+            }
         }
         return;
     }

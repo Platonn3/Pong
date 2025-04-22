@@ -1,10 +1,10 @@
 class Draw {
-    field boolean stop;
+    field boolean stopDrawing;
     constructor Draw new() {
             return this;
         }
 
-    method boolean draw(int leftScore, int rightScore, 
+    method void draw(int leftScore, int rightScore, 
             int leftPaddleY, int rightPaddleY, 
             int ballX, int ballY) {
         do Screen.clearScreen();
@@ -13,7 +13,7 @@ class Draw {
         if ((leftScore = 4) | (rightScore = 4)){
             do drawRightScore(0);
             do drawLeftScore(0);
-            let stop = true;
+            let stopDrawing = true;
         }
         else{
             do drawRightScore(rightScore);
@@ -39,7 +39,12 @@ class Draw {
         do Screen.drawRectangle(5, leftPaddleY, 8, leftPaddleY + 20);
         do Screen.drawRectangle(151, rightPaddleY, 154, rightPaddleY + 20);
         do Screen.drawRectangle(ballX, ballY, ballX + 2, ballY + 2);
-        return stop;
+        return;
+    }
+
+    method boolean GetStopDrawing()
+    {
+        return stopDrawing;
     }
 
     // отрисовка счета
@@ -102,46 +107,54 @@ class Draw {
 
     // отрисвка текста Player 1/2 win
     method void drawPlayerWin(int playerNumber){
+        // P
         do Screen.drawLine(1, 171, 1, 131);
         do Screen.drawLine(1, 131, 21, 131);
         do Screen.drawLine(21, 131, 21, 151);
-        do Screen.drawLine(21, 151, 1, 151);// P
+        do Screen.drawLine(21, 151, 1, 151);
 
-
+        //L
         do Screen.drawLine(26, 131, 25, 171);
-        do Screen.drawLine(26, 171, 46, 171);//L
+        do Screen.drawLine(26, 171, 46, 171);
 
+        //A
         do Screen.drawLine(61, 131, 51, 171);
         do Screen.drawLine(61, 131, 71, 171);
-        do Screen.drawLine(55, 151, 67, 151); //A
+        do Screen.drawLine(55, 151, 67, 151); 
 
+        //Y
         do Screen.drawLine(86, 171, 86, 146);
         do Screen.drawLine(86, 146, 76, 131);
-        do Screen.drawLine(86, 146, 96, 131);//Y
+        do Screen.drawLine(86, 146, 96, 131);
 
+        //E
         do Screen.drawLine(101, 171, 121, 171);
         do Screen.drawLine(101, 171, 101, 131);
         do Screen.drawLine(101, 131, 121, 131);
-        do Screen.drawLine(101, 151, 121, 151);//E
+        do Screen.drawLine(101, 151, 121, 151);
 
+        //R
         do Screen.drawLine(126, 171, 126, 131);
         do Screen.drawLine(126, 131, 146, 131);
         do Screen.drawLine(146, 131, 146, 151);
         do Screen.drawLine(146, 151, 126, 151);
-        do Screen.drawLine(126, 151, 146, 171);//R
+        do Screen.drawLine(126, 151, 146, 171);
 
+        //W
         do Screen.drawLine(1, 181, 6, 221);
         do Screen.drawLine(6, 221, 11, 181);
         do Screen.drawLine(11, 181, 16, 221);
-        do Screen.drawLine(16, 221, 21, 181);//W
+        do Screen.drawLine(16, 221, 21, 181);
 
+        //I
         do Screen.drawLine(26, 221, 46, 221);
         do Screen.drawLine(26, 181, 46, 181);
-        do Screen.drawLine(36, 221, 36, 181);//I
+        do Screen.drawLine(36, 221, 36, 181);
 
+        //N
         do Screen.drawLine(51, 221, 51, 181);
         do Screen.drawLine(51, 181, 71, 221);
-        do Screen.drawLine(71, 181, 71, 221);//N
+        do Screen.drawLine(71, 181, 71, 221);
 
         if (playerNumber = 1){
             do Screen.drawLine(161, 161, 171, 131);
